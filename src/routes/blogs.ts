@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
+import { createBlogSchema, updateBlogSchema } from '@nishitcodes100x/medium-common'
 
 export const blogsRoute = new Hono<{
       Bindings: {
@@ -30,11 +31,16 @@ blogsRoute.use('/*', async (c, next) => {
 });
 
 blogsRoute.post('/blog', async (c) => {
+      const body = await c.req.json();
+      const { success } = createBlogSchema.safeParse(body);
+      if (!success) {
+            console.log('Error while creating blogs');
+            return c.json({message: 'Invalid data for blogs'}, 400)
+      }
       const prisma = new PrismaClient({
             datasourceUrl: c.env.DATABASE_URL,
       }).$extends(withAccelerate());
       const author = c.get('user');
-      const body = await c.req.json();
       const { title, content } = body;
 
       if (!title || !content) {
@@ -58,11 +64,16 @@ blogsRoute.post('/blog', async (c) => {
 });
 
 blogsRoute.put('/update-blog', async (c) => {
+      const body = await c.req.json();
+      const { success } = updateBlogSchema.safeParse(body);
+      if (!success) {
+            console.log('Error editing blogs');
+            return c.json({ message: 'Can not edit' }, 400)
+      }
       const prisma = new PrismaClient({
             datasourceUrl: c.env.DATABASE_URL,
       }).$extends(withAccelerate());
 
-      const body = await c.req.json();
       const { id, title, content } = body;
 
       if (!id || !title || !content) {
@@ -117,7 +128,7 @@ blogsRoute.get('/allblogs', async (c) => {
       }).$extends(withAccelerate());
       try {
             const allBlogs = await prisma.blogs.findMany({
-                  
+
             });
 
             return c.json({

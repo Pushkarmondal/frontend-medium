@@ -3,6 +3,8 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import bcrypt from 'bcryptjs';
 import { Hono } from "hono";
 import { sign } from 'hono/jwt'
+import { signUpSchema, signInSchema } from '@nishitcodes100x/medium-common'
+
 
 export const userRoutes = new Hono<{
       Bindings: {
@@ -17,11 +19,17 @@ export const userRoutes = new Hono<{
 }>();
 
 userRoutes.post('/signup', async (c) => {
+      const body = await c.req.json();
+      const { success } = signUpSchema.safeParse(body);
+
+      if (!success) {
+            console.error('Error Signup:');
+            return c.json({ message: 'Invalid data for signup' }, 403);
+      }
       const prisma = new PrismaClient({
             datasourceUrl: c.env.DATABASE_URL,
       }).$extends(withAccelerate());
 
-      const body = await c.req.json();
       const { userName, email, password } = body;
 
       if (!userName || !email || !password) {
@@ -52,11 +60,16 @@ userRoutes.post('/signup', async (c) => {
 })
 
 userRoutes.post('/signin', async (c) => {
+      const body = await c.req.json();
+      const { success } = signInSchema.safeParse(body);
+      if (!success) {
+            console.error('Error Signin:');
+            return c.json({ message: 'Invalid data for signin' }, 403);
+      }
       const prisma = new PrismaClient({
             datasourceUrl: c.env.DATABASE_URL,
       }).$extends(withAccelerate());
 
-      const body = await c.req.json();
       const { email, password } = body;
 
       if (!email || !password) {
