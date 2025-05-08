@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Avatar } from "./Avatar";
 
 interface BlogCardDetails {
@@ -5,6 +6,7 @@ interface BlogCardDetails {
       title: string;
       content: string;
       publishDate: string;
+      id: string
 }
 
 export const BlogCard = ({
@@ -12,10 +14,12 @@ export const BlogCard = ({
       title,
       content,
       publishDate,
+      id
 }: BlogCardDetails) => {
       return (
+            <Link to={`/getBlogs/${id}`}>
             <div>
-                  <div className="w-full px-4 py-3 flex justify-center">
+                  <div className="w-full px-4 py-3 flex justify-center cursor-pointer">
 
                         <div className="w-full max-w-screen-xl min-h-[150px] border border-slate-200 rounded-2xl shadow-2xl/10 bg-white p-6 transition hover:shadow-lg">
                               {/* Author Info */}
@@ -45,7 +49,7 @@ export const BlogCard = ({
                               </p>
                         </div>
                   </div>
-            </div>
-
+                  </div>
+            </Link>
       );
 };

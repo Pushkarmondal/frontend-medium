@@ -1,4 +1,3 @@
-import { Auth } from "../components/Auth"
 import { Authsignin } from "../components/Authsignin"
 import { Quote } from "../components/Quote"
 

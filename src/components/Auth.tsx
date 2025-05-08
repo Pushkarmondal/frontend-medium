@@ -16,8 +16,13 @@ export const Auth = ({ type }: { type: 'signup' | 'signin' }) => {
       async function onhandle() {
             try {
                   const response = await axios.post(SIGNUP_URL, postInput)
-                  const jwt = response.data
+                  console.log("Signup response data:", response.data);
+
+                  // Fix: Extract the token with proper fallback
+                  const jwt = response.data.token || response.data.jwt;
                   localStorage.setItem('jwt', jwt);
+                  console.log("Token saved to localStorage:", jwt);
+
                   navigate("/blogs")
             } catch (error) {
                   console.log("Error while signup", error);
@@ -36,10 +41,9 @@ export const Auth = ({ type }: { type: 'signup' | 'signin' }) => {
                               <Link
                                     className="underline text-blue-500"
                                     to={type === 'signin' ? '/signup' : "/signin"}>
-                                    {type === 'signin' ? 'Sign up': 'Sign in'}
+                                    {type === 'signin' ? 'Sign up' : 'Sign in'}
                               </Link>
                         </div>
-
                   </div>
                   <LabelledInput label="Name" placeholder="Enter your username..." onChange={(e) => {
                         setPostInputs(c => ({
@@ -66,7 +70,6 @@ export const Auth = ({ type }: { type: 'signup' | 'signin' }) => {
       </div>
 }
 
-
 interface LabelledInputType {
       label: string,
       placeholder: string,
@@ -74,8 +77,8 @@ interface LabelledInputType {
       type?: string
 }
 
-function LabelledInput({label, placeholder, onChange, type}: LabelledInputType) {
-      return <div> 
+function LabelledInput({ label, placeholder, onChange, type }: LabelledInputType) {
+      return <div>
             <div>
                   <label className="block mb-1 text-sm font-medium text-gray-800">{label}</label>
                   <input

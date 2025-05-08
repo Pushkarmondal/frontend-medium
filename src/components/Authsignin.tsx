@@ -3,11 +3,10 @@ import { Link, useNavigate } from "react-router-dom"
 import { signInSchema } from '@nishitcodes100x/medium-common'
 import { Button } from "./Button"
 import axios from "axios"
-
 import { z } from 'zod';
 import { SIGNIN_URL } from "../Config"
-type SignInType = z.infer<typeof signInSchema>
 
+type SignInType = z.infer<typeof signInSchema>
 
 export const Authsignin = ({ type }: { type: 'signup' | 'signin' }) => {
       const navigate = useNavigate();
@@ -19,13 +18,17 @@ export const Authsignin = ({ type }: { type: 'signup' | 'signin' }) => {
       async function onhandle() {
             try {
                   const response = await axios.post(SIGNIN_URL, postInput)
-                  const jwt = response.data
+                  const jwt = response.data.token || response.data.jwt;
+
                   localStorage.setItem('jwt', jwt);
+                  console.log("Token saved to localStorage:", jwt);
+
                   navigate("/blogs")
             } catch (error) {
-                  console.log("Error while signup", error);
+                  console.log("Error while signin", error);
             }
       }
+
       return <div className="h-screen flex justify-center items-center">
             <div className="flex flex-col gap-4 p-8  shadow-xl/30 rounded-xl w-[90%] max-w-md bg-white">
                   <div className="text-center">
@@ -41,7 +44,6 @@ export const Authsignin = ({ type }: { type: 'signup' | 'signin' }) => {
                                     {type === 'signin' ? 'Sign up' : 'Sign in'}
                               </Link>
                         </div>
-
                   </div>
                   <LabelledInput label="Email" placeholder="Enter your Email..." onChange={(e) => {
                         setPostInputs(c => ({
@@ -61,7 +63,6 @@ export const Authsignin = ({ type }: { type: 'signup' | 'signin' }) => {
             </div>
       </div>
 }
-
 
 interface LabelledInputType {
       label: string,
