@@ -6,6 +6,7 @@ import { sign } from 'hono/jwt'
 import { signUpSchema, signInSchema } from '@nishitcodes100x/medium-common'
 
 
+
 export const userRoutes = new Hono<{
       Bindings: {
             DATABASE_URL: string;
@@ -30,9 +31,9 @@ userRoutes.post('/signup', async (c) => {
             datasourceUrl: c.env.DATABASE_URL,
       }).$extends(withAccelerate());
 
-      const { userName, email, password } = body;
+      const { username, email, password } = body;
 
-      if (!userName || !email || !password) {
+      if (!username || !email || !password) {
             return c.text('All fields required!', 400);
       }
 
@@ -41,7 +42,7 @@ userRoutes.post('/signup', async (c) => {
 
             const user = await prisma.user.create({
                   data: {
-                        userName,
+                        username,
                         email,
                         password: hashedPassword
                   }

@@ -128,7 +128,16 @@ blogsRoute.get('/allblogs', async (c) => {
       }).$extends(withAccelerate());
       try {
             const allBlogs = await prisma.blogs.findMany({
-
+                  select: {
+                        content: true,
+                        title: true,
+                        id: true,
+                        author: {
+                              select: {
+                                    username: true
+                              }
+                        }
+                  }
             });
 
             return c.json({
