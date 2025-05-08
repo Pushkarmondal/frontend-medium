@@ -1,16 +1,17 @@
 import { useState, type ChangeEvent } from "react"
 import { Link } from "react-router-dom"
-import { SignUpSchema } from '@nishitcodes100x/medium-common'
+import { signInSchema } from '@nishitcodes100x/medium-common'
 import { Button } from "./Button"
 
-export const Auth = ({ type }: { type: 'signup' | 'signin' }) => {
-      const [postInput, setPostInputs] = useState<SignUpSchema>({
-            username: "",
+import { z } from 'zod';
+type SignInType = z.infer<typeof signInSchema>
+
+
+export const Authsignin = ({ type }: { type: 'signup' | 'signin' }) => {
+      const [postInput, setPostInputs] = useState<SignInType>({
             email: "",
             password: ""
       })
-
-      
       return <div className="h-screen flex justify-center items-center">
             <div className="flex flex-col gap-4 p-8  shadow-xl/30 rounded-xl w-[90%] max-w-md bg-white">
                   <div className="text-center">
@@ -23,17 +24,11 @@ export const Auth = ({ type }: { type: 'signup' | 'signin' }) => {
                               <Link
                                     className="underline text-blue-500"
                                     to={type === 'signin' ? '/signup' : "/signin"}>
-                                    {type === 'signin' ? 'Sign up': 'Sign in'}
+                                    {type === 'signin' ? 'Sign up' : 'Sign in'}
                               </Link>
                         </div>
 
                   </div>
-                  <LabelledInput label="Name" placeholder="Enter your username..." onChange={(e) => {
-                        setPostInputs(c => ({
-                              ...c,
-                              username: e.target.value
-                        }))
-                  }} />
                   <LabelledInput label="Email" placeholder="Enter your Email..." onChange={(e) => {
                         setPostInputs(c => ({
                               ...c,
@@ -61,8 +56,8 @@ interface LabelledInputType {
       type?: string
 }
 
-function LabelledInput({label, placeholder, onChange, type}: LabelledInputType) {
-      return <div> 
+function LabelledInput({ label, placeholder, onChange, type }: LabelledInputType) {
+      return <div>
             <div>
                   <label className="block mb-1 text-sm font-medium text-gray-800">{label}</label>
                   <input
