@@ -1,17 +1,31 @@
 import { useState, type ChangeEvent } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { signInSchema } from '@nishitcodes100x/medium-common'
 import { Button } from "./Button"
+import axios from "axios"
 
 import { z } from 'zod';
+import { SIGNIN_URL } from "../Config"
 type SignInType = z.infer<typeof signInSchema>
 
 
 export const Authsignin = ({ type }: { type: 'signup' | 'signin' }) => {
+      const navigate = useNavigate();
       const [postInput, setPostInputs] = useState<SignInType>({
             email: "",
             password: ""
       })
+
+      async function onhandle() {
+            try {
+                  const response = await axios.post(SIGNIN_URL, postInput)
+                  const jwt = response.data
+                  localStorage.setItem('jwt', jwt);
+                  navigate("/blogs")
+            } catch (error) {
+                  console.log("Error while signup", error);
+            }
+      }
       return <div className="h-screen flex justify-center items-center">
             <div className="flex flex-col gap-4 p-8  shadow-xl/30 rounded-xl w-[90%] max-w-md bg-white">
                   <div className="text-center">
@@ -42,7 +56,7 @@ export const Authsignin = ({ type }: { type: 'signup' | 'signin' }) => {
                         }))
                   }} />
                   <div className="flex justify-center">
-                        <Button type={type.toLowerCase() as 'signup' | 'signin'} />
+                        <Button type={type.toLowerCase() as 'signup' | 'signin'} onClick={onhandle} />
                   </div>
             </div>
       </div>

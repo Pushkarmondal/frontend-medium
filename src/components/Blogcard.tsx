@@ -1,0 +1,51 @@
+import { Avatar } from "./Avatar";
+
+interface BlogCardDetails {
+      authorName: string;
+      title: string;
+      content: string;
+      publishDate: string;
+}
+
+export const BlogCard = ({
+      authorName,
+      title,
+      content,
+      publishDate,
+}: BlogCardDetails) => {
+      return (
+            <div>
+                  <div className="w-full px-4 py-3 flex justify-center">
+
+                        <div className="w-full max-w-screen-xl min-h-[150px] border border-slate-200 rounded-2xl shadow-2xl/10 bg-white p-6 transition hover:shadow-lg">
+                              {/* Author Info */}
+                              <div className="flex items-center mb-4 text-normal text-gray-600">
+                                    <Avatar name={authorName} />
+                                    <div className="ml-3">
+                                          <p className="font-semibold text-lg text-gray-800">{authorName}</p>
+                                          <div className="flex items-center text-gray-500 text-sm">
+                                                <span>
+                                                      {new Date(publishDate).toLocaleDateString("en-US", {
+                                                            month: "short",
+                                                            day: "numeric",
+                                                      })}
+                                                </span>
+                                                <span className="mx-1">·</span>
+                                                <span>{Math.ceil(content.length / 100)} min read</span>
+                                          </div>
+                                    </div>
+                              </div>
+
+                              {/* Title */}
+                              <h2 className="text-2xl font-bold text-gray-900 mb-3">{title}</h2>
+
+                              {/* Content */}
+                              <p className="text-gray-700 text-base leading-relaxed">
+                                    {content.slice(0, 300)}...
+                              </p>
+                        </div>
+                  </div>
+            </div>
+
+      );
+};

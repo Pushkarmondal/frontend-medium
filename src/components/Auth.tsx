@@ -1,16 +1,29 @@
 import { useState, type ChangeEvent } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { SignUpSchema } from '@nishitcodes100x/medium-common'
 import { Button } from "./Button"
+import axios from 'axios';
+import { SIGNUP_URL } from "../Config";
 
 export const Auth = ({ type }: { type: 'signup' | 'signin' }) => {
+      const navigate = useNavigate();
       const [postInput, setPostInputs] = useState<SignUpSchema>({
             username: "",
             email: "",
             password: ""
       })
 
-      
+      async function onhandle() {
+            try {
+                  const response = await axios.post(SIGNUP_URL, postInput)
+                  const jwt = response.data
+                  localStorage.setItem('jwt', jwt);
+                  navigate("/blogs")
+            } catch (error) {
+                  console.log("Error while signup", error);
+            }
+      }
+
       return <div className="h-screen flex justify-center items-center">
             <div className="flex flex-col gap-4 p-8  shadow-xl/30 rounded-xl w-[90%] max-w-md bg-white">
                   <div className="text-center">
@@ -47,7 +60,7 @@ export const Auth = ({ type }: { type: 'signup' | 'signin' }) => {
                         }))
                   }} />
                   <div className="flex justify-center">
-                        <Button type={type.toLowerCase() as 'signup' | 'signin'} />
+                        <Button type={type.toLowerCase() as 'signup' | 'signin'} onClick={onhandle} />
                   </div>
             </div>
       </div>

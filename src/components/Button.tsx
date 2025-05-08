@@ -1,7 +1,15 @@
-export function Button({ type = 'signup' }: { type: 'signup' | 'signin' }) {
+interface ButtonProps {
+      type: 'signup' | 'signin';
+      onClick?: () => void;
+}
+
+export const Button = ({ type, onClick }: ButtonProps) => {
       return (
-            <button className="px-8 py-2 rounded-md bg-blue-500 text-white font-bold transition duration-200 hover:bg-white hover:text-black border-2 border-transparent hover:border-stone-500">
+            <button
+                  onClick={onClick}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+            >
                   {type === 'signup' ? 'Sign up' : 'Sign in'}
             </button>
       );
-}
+};
