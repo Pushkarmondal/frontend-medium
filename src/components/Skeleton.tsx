@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Skeleton = () => {
       return (
             <div className="min-h-screen bg-white px-4 sm:px-10 py-8 sm:py-12">

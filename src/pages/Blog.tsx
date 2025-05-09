@@ -2,7 +2,6 @@
 import { BlogPage } from "../components/BlogPage";
 import { useBlog } from "../hooks"
 import { useParams } from "react-router-dom";
-import { LoadingSpinner } from "../icons/LoadingSpinner";
 import { Skeleton } from "../components/Skeleton";
 
 export const Blog = () => {
