@@ -31,7 +31,7 @@ export const BlogPage = ({ blog }: { blog: Blog }) => {
                               <h1 className="text-3xl sm:text-4xl font-bold mb-2">
                                     {blog?.title || "Untitled Blog"}
                               </h1>
-                              <p className="text-gray-500 mb-6">Posted on {'Today'}</p>
+                              <p className="text-gray-500 mb-6">Posted on {formattedDate}</p>
                               <div className="text-gray-800 leading-relaxed space-y-4">
                                     {blog?.content || "No content available"}
                               </div>

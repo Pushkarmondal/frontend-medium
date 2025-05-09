@@ -27,7 +27,7 @@ export const BlogCard = ({
                                           <p className="font-semibold text-lg text-gray-800">{authorName || "Anonymous"}</p>
                                           <div className="flex items-center text-gray-500 text-sm">
                                                 <span>
-                                                      {publishDate="Today"}
+                                                      {publishDate || "Today"}
                                                 </span>
                                                 <span className="mx-1">·</span>
                                                 <span>{Math.ceil(content.length / 100)} min read</span>
