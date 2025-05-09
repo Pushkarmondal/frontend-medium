@@ -35,7 +35,7 @@ blogsRoute.post('/blog', async (c) => {
       const { success } = createBlogSchema.safeParse(body);
       if (!success) {
             console.log('Error while creating blogs');
-            return c.json({message: 'Invalid data for blogs'}, 400)
+            return c.json({ message: 'Invalid data for blogs' }, 400)
       }
       const prisma = new PrismaClient({
             datasourceUrl: c.env.DATABASE_URL,
@@ -108,6 +108,16 @@ blogsRoute.get('/getBlogs/:id', async (c) => {
       try {
             const response = await prisma.blogs.findUnique({
                   where: { id },
+                  select: {
+                        content: true,
+                        title: true,
+                        id: true,
+                        author: {
+                              select: {
+                                    username: true
+                              }
+                        }
+                  }
             });
 
             if (!response) {
@@ -115,7 +125,7 @@ blogsRoute.get('/getBlogs/:id', async (c) => {
             }
 
             console.log("Blogs details ->", response);
-            return c.json({ blog: response }, 200); 
+            return c.json({ blog: response }, 200);
       } catch (error) {
             console.error('Error getting blog based on ID:', error);
             return c.json({ message: 'Invalid data or blog not found' }, 400);
