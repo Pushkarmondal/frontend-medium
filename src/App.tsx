@@ -5,6 +5,7 @@ import { Signin } from './pages/Signin'
 import { Blog } from './pages/Blog'
 import { Blogs } from './pages/Blogs'
 import { Layout } from './components/Layout'
+import { AddContent } from './components/AddContent'
 
 function App() {
 
@@ -12,10 +13,10 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/signup' element={<Signup />} />
+          <Route path='/' element={<Signup />} />
           <Route path='/signin' element={<Signin />} />
           <Route
-            path="/blog/:id"
+            path="/blogs/:id"
             element={
               <Layout>
                 <Blog />
@@ -30,6 +31,7 @@ function App() {
               </Layout>
             }
           />
+          <Route path='addContent' element={ <AddContent/>} />
         </Routes>
       </BrowserRouter>
     </>

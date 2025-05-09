@@ -1,24 +1,27 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { GET_BLOGS } from "../Config";
+import { BLOGS_BY_ID, GET_BLOGS } from "../Config";
 
 // Define the structure of a blog object (adjust if necessary)
-interface Blog {
+export interface Blog {
       id: string;
       title: string;
       content: string;
       publishDate?: string;
-      authorName?: string;
+      author?: {        // Add this optional author field
+            username?: string;
+      };
+      authorname?: string;
 }
 
 
 export const useBlog = ({ id }: { id: string }) => {
       const [loading, setLoading] = useState<boolean>(true);
-      const [blogs, setBlogs] = useState<Blog[]>([]); // Type for blogs array
-      const [error, setError] = useState<string | null>(null); // Type error state as string | null
+      const [blog, setBlog] = useState<Blog | null>(null);
+      const [error, setError] = useState<string | null>(null);
 
       useEffect(() => {
-            const fetchBlogs = async () => {
+            const fetchBlog = async () => {
                   try {
                         const token = localStorage.getItem("jwt");
 
@@ -28,13 +31,12 @@ export const useBlog = ({ id }: { id: string }) => {
                               return;
                         }
 
-                        const res = await axios.get(GET_BLOGS, {
+                        const res = await axios.get(`${BLOGS_BY_ID}/${id}`, {
                               headers: {
                                     Authorization: `Bearer ${token}`,
                               },
                         });
-
-                        setBlogs(res.data.blogs);
+                        setBlog(res.data.blog);
                   } catch (error) {
                         if (axios.isAxiosError(error)) {
                               console.error("Failed to fetch blogs:", error.response?.data?.message || error.message);
@@ -48,12 +50,16 @@ export const useBlog = ({ id }: { id: string }) => {
                   }
             };
 
-            fetchBlogs();
+            fetchBlog();
             
-      }, []);
+      }, [id]);
+
+      return {
+            loading,
+            blog,
+            error
+      }
 }
-
-
 
 
 export const useBlogs = () => {
