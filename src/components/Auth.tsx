@@ -84,7 +84,7 @@ function LabelledInput({ label, placeholder, onChange, type }: LabelledInputType
                   <input
                         onChange={onChange}
                         type={type || "text"}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-500"
                         placeholder={placeholder}
                         required
                   />
