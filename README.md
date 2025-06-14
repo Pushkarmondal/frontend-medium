@@ -1,4 +1,4 @@
-# Medium Clone Backend
+# Medium Backend
 
 A modern, serverless backend API for a Medium-like blogging platform built with Hono.js, Prisma ORM, and designed for Cloudflare Workers. This application provides complete user authentication and blog management functionality with TypeScript support and comprehensive validation.
 
