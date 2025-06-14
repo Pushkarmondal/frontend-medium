@@ -1,4 +1,4 @@
-# Medium Clone Frontend
+# Medium  Frontend
 
 A modern, responsive frontend for a Medium-like blogging platform built with React, TypeScript, and Tailwind CSS. This application provides a clean, intuitive interface for reading, writing, and managing blog posts with seamless authentication and real-time updates.
 
@@ -27,7 +27,7 @@ A modern, responsive frontend for a Medium-like blogging platform built with Rea
 
 - Node.js (v16 or higher)
 - npm or yarn package manager
-- Access to the Medium Clone Backend API
+- Access to the Medium  Backend API
 
 ## Installation
 
